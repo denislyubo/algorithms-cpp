@@ -46,21 +46,12 @@ vector<int> fst_grtr_cur_1(const vector<int>& a)
 			continue;
 		}
 
+		while (index_temp.size() && a[i] >= index_temp.top().second)
+			index_temp.pop();
 
-		while (index_temp.size())
-		{
-			if (a[i] >= index_temp.top().second)
-				index_temp.pop();
-			else
-				break;
-		}
 
 		if (index_temp.size())
-		{
 			res[i] = index_temp.top().first - i;
-		}
-		else
-			res[i] = 0;
 
 		index_temp.emplace(make_pair(i, a[i]));		
 	}
