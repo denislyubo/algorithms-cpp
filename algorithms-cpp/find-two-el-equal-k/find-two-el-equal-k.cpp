@@ -18,8 +18,8 @@ concept SupportFirstSecond = requires(T val) {
 };
 
 template <typename T>
-requires SupportFirstSecond<T>
-std::ostream& operator<< (std::ostream& out, std::pair<T, T> const& data) {
+//requires SupportFirstSecond<T>
+std::ostream& operator<< (std::ostream& out, const std::pair<T, T>& data) {
 	out << data.first << ":" << data.second << ";";
 
 	return out;
@@ -47,6 +47,10 @@ struct Comparator {
 template <typename T>
 using Res = unordered_set <T, pair_hash<T>, Comparator<T>>;
 
+template <typename T>
+requires(std::is_integral_v<T>)
+using Set = std::unordered_set<T>;
+
 auto twoSum(const vector<int>& arr, int k) {
 	Res<std::pair<int, int>> res;
 
@@ -62,6 +66,27 @@ auto twoSum(const vector<int>& arr, int k) {
 	return res;
 }
 
+auto twoSum1(const vector<int>& arr, int k) {
+	Res<std::pair<int, int>> res;
+	Set<int> temp;
+
+	auto len = arr.size();
+
+	for (auto i = 0; i < len; ++i) 
+	{
+		const auto& el = temp.find(k-arr[i]);
+		if (el != temp.end()) 
+		{
+			res.insert(make_pair(*el, arr[i]));
+		}
+		else
+			temp.insert(arr[i]);
+	}
+		
+
+	return res;
+}
+
 
 int main()
 {
@@ -69,9 +94,17 @@ int main()
 
 	auto res = twoSum(input, 15);
 
-	cout << "Found results: " << endl;
+	cout << "Found results twoSum: " << endl;
 	for (const auto& el : res) {
 		cout << el << endl;
 	}
+
+	auto res1 = twoSum1(input, 15);
+
+	cout << "Found results twoSum1: " << endl;
+	for (const auto& el : res1) {
+		cout << el << endl;
+	}
+
 	return 0;
 }
