@@ -14,3 +14,4 @@ project ("algorithms-cpp")
 # Include sub-projects.
 add_subdirectory ("find-two-el-equal-k")
 add_subdirectory ("first-greater-then-current")
+add_subdirectory ("find-celebrity")
