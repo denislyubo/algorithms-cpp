@@ -94,7 +94,7 @@ std::optional<T> binary_search(const vector<T>& arr, T k)
 	std::optional<T> res;
 
 	int i = 0, j = arr.size()-1;
-	while (i<j-1)
+	while (i!=j-1)
 	{
 		auto n = (j + i) / 2;
 		if (k < n) {
@@ -128,10 +128,35 @@ auto twoSum2(const vector<int>& arr, int k) {
 	return res;
 }
 
+auto twoSum3(const vector<int>& arr, int k) {
+	Res<std::pair<int, int>> res;
+
+	auto i = 0, j = int(arr.size() - 1);
+
+	for (int i = 0, j = arr.size() - 1; i < j; )
+	{
+		if ((arr[i] + arr[j]) > k)
+			j--;
+		else if ((arr[i] + arr[j]) <  k)
+		{
+			i++;
+		}
+		else
+		{
+			res.insert(make_pair(arr[i], arr[j]));
+			i++; j--;
+		}
+
+	}
+
+
+	return res;
+}
+
 
 int main()
 {
-	vector<int> input{ -1, 2,6, 7, 8, 12, 14, 15, 16 };
+	vector<int> input{ -1, 2, 6, 7, 8, 12, 14, 15, 16 };
 
 	auto res = twoSum(input, 15);
 
@@ -150,6 +175,13 @@ int main()
 	auto res2 = twoSum2(input, 15);
 
 	cout << "Found results twoSum2: " << endl;
+	for (const auto& el : res1) {
+		cout << el << endl;
+	}
+
+	auto res3 = twoSum3(input, 15);
+
+	cout << "Found results twoSum3: " << endl;
 	for (const auto& el : res1) {
 		cout << el << endl;
 	}
