@@ -8,6 +8,7 @@
 #include <utility>
 #include <iostream>
 #include <unordered_set>
+#include <optional>
 
 using namespace std;
 
@@ -87,6 +88,46 @@ auto twoSum1(const vector<int>& arr, int k) {
 	return res;
 }
 
+template<typename T>
+std::optional<T> binary_search(const vector<T>& arr, T k)
+{
+	std::optional<T> res;
+
+	int i = 0, j = arr.size()-1;
+	while (i<j-1)
+	{
+		auto n = (j + i) / 2;
+		if (k < n) {
+			j = n;
+		}
+		else if (k >n)
+		{
+			i = n;
+		}
+		else
+			return std::optional<T>{arr[n]};
+	}
+
+	return std::optional<T>{};
+}
+
+auto twoSum2(const vector<int>& arr, int k) {
+	Res<std::pair<int, int>> res;
+
+	auto len = arr.size();
+
+	for (auto i = 0; i < len; ++i)
+	{
+		auto j = k - arr[i];
+		auto r = binary_search(arr, j);
+		if (r)
+			res.insert(make_pair(r.value(), j));		
+	}
+
+
+	return res;
+}
+
 
 int main()
 {
@@ -102,6 +143,13 @@ int main()
 	auto res1 = twoSum1(input, 15);
 
 	cout << "Found results twoSum1: " << endl;
+	for (const auto& el : res1) {
+		cout << el << endl;
+	}
+
+	auto res2 = twoSum2(input, 15);
+
+	cout << "Found results twoSum2: " << endl;
 	for (const auto& el : res1) {
 		cout << el << endl;
 	}
